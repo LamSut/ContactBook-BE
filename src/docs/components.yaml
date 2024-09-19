@@ -1,0 +1,60 @@
+# Common references
+components:
+  schemas:
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true # Returned by HTTP GET
+        name:
+          type: string
+          description: contact name
+        email:
+          type: string
+          format: email
+          description: contact email
+        address:
+          type: string
+          description: contact address
+        phone:
+          type: string
+          description: contact phone number
+        favorite:
+          type: integer
+          enum: [0, 1]
+          default: 0
+          description: favorite contact
+        avatar:
+          type: string
+          readOnly: true # Returned by HTTP GET
+          description: contact avatar file path
+        avatarFile:
+          type: string
+          format: binary
+          writeOnly: true # Used in POST/PUT/PATCH
+          description: contact avatar file
+  responses:
+    '200NoData':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status
+                enum: [success]
+              data:
+                type: object
+                nullable: true
+                default: null
+                description: The response data
+  parameters:
+  contactIdParam:
+    name: id
+    description: Contact ID
+    required: true
+    in: path
+    schema:
+      type: integer
