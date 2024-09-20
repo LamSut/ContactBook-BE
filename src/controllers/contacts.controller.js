@@ -53,12 +53,45 @@ async function getContactsByFilter(req, res, next) {
   return res.json(JSend.success({ contacts: result.contacts, metadata: result.metadata }));
 }
 
-function getContact(req, res) {
-  return res.json(JSend.success({ contact: {} }));
+async function getContact(req, res, next) {
+  const { id } = req.params;
+
+  try {
+    const contact = await contactsService.getContactById(id);
+
+    if (!contact) {
+      return next(new ApiError(404, 'Contact not found'));
+    }
+
+    return res.json(JSend.success({ contact }));
+  } catch (error) {
+    console.log(error);
+    return next(new ApiError(500, `Error retrieving contact with id=${id}`));
+  }
 }
 
-function updateContact(req, res) {
-  return res.json(JSend.success({ contact: {} }));
+async function updateContact(req, res, next) {
+  if (Object.keys(req.body).length === 0 && !req.file) {
+    return next(new ApiError(400, 'Data to update can not be empty'));
+  }
+
+  const { id } = req.params;
+
+  try {
+    const updated = await contactsService.updateContact(id, {
+      ...req.body,
+      avatar: req.file ? `/public/uploads/${req.file.filename}` : null,
+    });
+
+    if (!updated) {
+      return next(new ApiError(404, 'Contact not found'));
+    }
+
+    return res.json(JSend.success({ contact: updated }));
+  } catch (error) {
+    console.log(error);
+    return next(new ApiError(500, `Error updating contact with id=${id}`));
+  }
 }
 
 function deleteContact(req, res) {

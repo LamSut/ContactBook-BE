@@ -64,7 +64,12 @@ async function getManyContacts(query) {
   };
 }
 
+async function getContactById(id) {
+  return contactRepository().where('id', id).select('*').first();
+}  
+
 module.exports = {
   createContact,
   getManyContacts,
+  getContactById
 };
