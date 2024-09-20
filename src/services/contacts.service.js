@@ -1,5 +1,6 @@
 const knex = require('../database/knex');
 const Paginator = require('./paginator');
+const { unlink } = require('node:fs');
 
 function contactRepository() {
   return knex('contacts');
@@ -68,8 +69,38 @@ async function getContactById(id) {
   return contactRepository().where('id', id).select('*').first();
 }  
 
+async function updateContact(id, payload) {
+  const updatedContact = await contactRepository()
+    .where('id', id)
+    .select('*')
+    .first();
+
+  if (!updatedContact) {
+    return null;
+  }
+
+  const update = readContact(payload);
+  if (update.avatar) {
+    delete update.avatar;
+  }
+
+  await contactRepository().where('id', id).update(update);
+
+  if (
+    update.avatar &&
+    updatedContact.avatar &&
+    update.avatar !== updatedContact.avatar &&
+    updatedContact.avatar.startsWith('/public/uploads')
+  ) {
+    unlink(updatedContact.avatar, (err) => {});
+  }
+
+  return { ...updatedContact, ...update };
+}
+
 module.exports = {
   createContact,
   getManyContacts,
-  getContactById
+  getContactById,
+  updateContact
 };

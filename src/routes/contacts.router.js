@@ -174,7 +174,7 @@ module.exports.setup = (app) => {
  *                       $ref: '#/components/schemas/Contact'
  */
 
-  router.put('/:id', contactsController.updateContact);
+  router.put('/:id', avatarUpload, contactsController.updateContact);
 
 /**
  * @swagger
