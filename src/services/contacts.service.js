@@ -120,10 +120,23 @@ async function deleteContact(id) {
   return deletedContact;
 }
 
+async function deleteAllContacts() {
+  const contacts = await contactRepository().select('avatar');
+
+  await contactRepository().del();
+
+  contacts.forEach((contact) => {
+    if (contact.avatar && contact.avatar.startsWith('/public/uploads')) {
+      unlink(contact.avatar, (err) => {});
+    }
+  });
+}
+
 module.exports = {
   createContact,
   getManyContacts,
   getContactById,
   updateContact,
-  deleteContact
+  deleteContact,
+  deleteAllContacts 
 };
