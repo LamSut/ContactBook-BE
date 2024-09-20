@@ -98,9 +98,32 @@ async function updateContact(id, payload) {
   return { ...updatedContact, ...update };
 }
 
+async function deleteContact(id) {
+  const deletedContact = await contactRepository()
+    .where('id', id)
+    .select('avatar')
+    .first();
+
+  if (!deletedContact) {
+    return null;
+  }
+
+  await contactRepository().where('id', id).del();
+
+  if (
+    deletedContact.avatar &&
+    deletedContact.avatar.startsWith('/public/uploads')
+  ) {
+    unlink(deletedContact.avatar, (err) => {});
+  }
+
+  return deletedContact;
+}
+
 module.exports = {
   createContact,
   getManyContacts,
   getContactById,
-  updateContact
+  updateContact,
+  deleteContact
 };
