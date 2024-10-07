@@ -50,6 +50,9 @@ module.exports.setup = (app) => {
    *                         $ref: '#/components/schemas/Contact'
    *                     metadata:
    *                       $ref: '#/components/schemas/PaginationMetadata'
+   *       500:
+   *         description: Internal Server Error
+   *         $ref: '#/components/responses/500Contact'
    */
 
   router.get('/', contactsController.getContactsByFilter);
@@ -85,6 +88,9 @@ module.exports.setup = (app) => {
    *                   properties:
    *                     contact:
    *                       $ref: '#/components/schemas/Contact'
+   *       500:
+   *         description: Internal Server Error
+   *         $ref: '#/components/responses/500Contact'
    */
 
   router.post('/', avatarUpload, contactsController.createContact);
@@ -101,6 +107,9 @@ module.exports.setup = (app) => {
    *       200:
    *         description: All contacts deleted
    *         $ref: '#/components/responses/200NoData'
+   *       500:
+   *         description: Internal Server Error
+   *         $ref: '#/components/responses/500Contact'
    */
 
   router.delete('/', contactsController.deleteAllContacts);
@@ -138,6 +147,9 @@ module.exports.setup = (app) => {
    *       404:
    *         description: Contact not found
    *         $ref: '#/components/responses/404Contact'
+   *       500:
+   *         description: Internal Server Error
+   *         $ref: '#/components/responses/500Contact'
    */
 
   router.get('/:id', contactsController.getContact);
@@ -178,6 +190,9 @@ module.exports.setup = (app) => {
    *       404:
    *         description: Contact not found
    *         $ref: '#/components/responses/404Contact'
+   *       500:
+   *         description: Internal Server Error
+   *         $ref: '#/components/responses/500Contact'
    */
 
   router.put('/:id', avatarUpload, contactsController.updateContact);
@@ -199,6 +214,9 @@ module.exports.setup = (app) => {
    *       404:
    *         description: Contact not found
    *         $ref: '#/components/responses/404Contact'
+   *       500:
+   *         description: Internal Server Error
+   *         $ref: '#/components/responses/500Contact'
    */
 
   router.delete('/:id', contactsController.deleteContact);
