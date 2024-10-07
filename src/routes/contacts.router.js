@@ -164,6 +164,9 @@ module.exports.setup = (app) => {
    *       200:
    *         description: An updated contact
    *         $ref: '#/components/responses/200Contact'
+   *       400:
+   *         description: Bad Request
+   *         $ref: '#/components/responses/400'
    *       404:
    *         description: Contact not found
    *         $ref: '#/components/responses/404'
