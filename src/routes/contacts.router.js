@@ -52,7 +52,7 @@ module.exports.setup = (app) => {
    *                       $ref: '#/components/schemas/PaginationMetadata'
    *       500:
    *         description: Internal Server Error
-   *         $ref: '#/components/responses/500Contact'
+   *         $ref: '#/components/responses/500'
    */
 
   router.get('/', contactsController.getContactsByFilter);
@@ -88,9 +88,12 @@ module.exports.setup = (app) => {
    *                   properties:
    *                     contact:
    *                       $ref: '#/components/schemas/Contact'
+   *       400:
+   *         description: Bad Request
+   *         $ref: '#/components/responses/400'
    *       500:
    *         description: Internal Server Error
-   *         $ref: '#/components/responses/500Contact'
+   *         $ref: '#/components/responses/500'
    */
 
   router.post('/', avatarUpload, contactsController.createContact);
@@ -109,7 +112,7 @@ module.exports.setup = (app) => {
    *         $ref: '#/components/responses/200NoData'
    *       500:
    *         description: Internal Server Error
-   *         $ref: '#/components/responses/500Contact'
+   *         $ref: '#/components/responses/500'
    */
 
   router.delete('/', contactsController.deleteAllContacts);
@@ -130,26 +133,13 @@ module.exports.setup = (app) => {
    *     responses:
    *       200:
    *         description: A contact
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               properties:
-   *                 status:
-   *                   type: string
-   *                   description: The response status
-   *                   enum: [success]
-   *                 data:
-   *                   type: object
-   *                   properties:
-   *                     contact:
-   *                       $ref: '#/components/schemas/Contact'
+   *         $ref: '#/components/responses/200Contact'
    *       404:
    *         description: Contact not found
-   *         $ref: '#/components/responses/404Contact'
+   *         $ref: '#/components/responses/404'
    *       500:
    *         description: Internal Server Error
-   *         $ref: '#/components/responses/500Contact'
+   *         $ref: '#/components/responses/500'
    */
 
   router.get('/:id', contactsController.getContact);
@@ -173,26 +163,13 @@ module.exports.setup = (app) => {
    *     responses:
    *       200:
    *         description: An updated contact
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               properties:
-   *                 status:
-   *                   type: string
-   *                   description: The response status
-   *                   enum: [success]
-   *                 data:
-   *                   type: object
-   *                   properties:
-   *                     contact:
-   *                       $ref: '#/components/schemas/Contact'
+   *         $ref: '#/components/responses/200Contact'
    *       404:
    *         description: Contact not found
-   *         $ref: '#/components/responses/404Contact'
+   *         $ref: '#/components/responses/404'
    *       500:
    *         description: Internal Server Error
-   *         $ref: '#/components/responses/500Contact'
+   *         $ref: '#/components/responses/500'
    */
 
   router.put('/:id', avatarUpload, contactsController.updateContact);
@@ -213,10 +190,10 @@ module.exports.setup = (app) => {
    *         $ref: '#/components/responses/200NoData'
    *       404:
    *         description: Contact not found
-   *         $ref: '#/components/responses/404Contact'
+   *         $ref: '#/components/responses/404'
    *       500:
    *         description: Internal Server Error
-   *         $ref: '#/components/responses/500Contact'
+   *         $ref: '#/components/responses/500'
    */
 
   router.delete('/:id', contactsController.deleteContact);
