@@ -80,6 +80,10 @@ async function updateContact(id, payload) {
   }
 
   const update = readContact(payload);
+  if (!update.avatar) {
+    delete update.avatar;
+  }
+
   await contactRepository().where('id', id).update(update);
 
   if (
@@ -88,7 +92,7 @@ async function updateContact(id, payload) {
     update.avatar !== updatedContact.avatar &&
     updatedContact.avatar.startsWith('/public/uploads')
   ) {
-    unlink(updatedContact.avatar, (err) => { });
+    unlink(`.${updatedContact.avatar}`, (err) => { });
   }
 
   return { ...updatedContact, ...update };
