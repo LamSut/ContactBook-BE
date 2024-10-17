@@ -20,15 +20,15 @@ function readContact(payload) {
 // Define functions for accessing the database
 
 async function createContact(payload) {
-    const contact = readContact(payload);
-    const [id] = await contactRepository().insert(contact);
-    return { id, ...contact };
+  const contact = readContact(payload);
+  const [id] = await contactRepository().insert(contact);
+  return { id, ...contact };
 }
 
 async function getManyContacts(query) {
   const { name, favorite, page = 1, limit = 5 } = query;
   const paginator = new Paginator(page, limit);
-  
+
   let results = await contactRepository()
     .where((builder) => {
       if (name) {
@@ -67,7 +67,7 @@ async function getManyContacts(query) {
 
 async function getContactById(id) {
   return contactRepository().where('id', id).select('*').first();
-}  
+}
 
 async function updateContact(id, payload) {
   const updatedContact = await contactRepository()
@@ -80,10 +80,6 @@ async function updateContact(id, payload) {
   }
 
   const update = readContact(payload);
-  if (update.avatar) {
-    delete update.avatar;
-  }
-
   await contactRepository().where('id', id).update(update);
 
   if (
@@ -92,7 +88,7 @@ async function updateContact(id, payload) {
     update.avatar !== updatedContact.avatar &&
     updatedContact.avatar.startsWith('/public/uploads')
   ) {
-    unlink(updatedContact.avatar, (err) => {});
+    unlink(updatedContact.avatar, (err) => { });
   }
 
   return { ...updatedContact, ...update };
@@ -114,7 +110,7 @@ async function deleteContact(id) {
     deletedContact.avatar &&
     deletedContact.avatar.startsWith('/public/uploads')
   ) {
-    unlink(deletedContact.avatar, (err) => {});
+    unlink(deletedContact.avatar, (err) => { });
   }
 
   return deletedContact;
@@ -127,7 +123,7 @@ async function deleteAllContacts() {
 
   contacts.forEach((contact) => {
     if (contact.avatar && contact.avatar.startsWith('/public/uploads')) {
-      unlink(contact.avatar, (err) => {});
+      unlink(contact.avatar, (err) => { });
     }
   });
 }
@@ -138,5 +134,5 @@ module.exports = {
   getContactById,
   updateContact,
   deleteContact,
-  deleteAllContacts 
+  deleteAllContacts
 };
